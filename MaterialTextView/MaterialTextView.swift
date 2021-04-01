@@ -481,6 +481,10 @@ extension MaterialTextView {
 		viewModel.isActive = true
 		delegate?.materialTextViewDidBeginEditing(self)
 	}
+	
+	func textFieldShouldReturn() -> Bool {
+		delegate?.materialTextViewShouldReturn(self) ?? true
+	}
 }
 
 extension MaterialTextView: UITextViewDelegate {
@@ -514,6 +518,10 @@ extension MaterialTextView: UITextFieldDelegate {
 	public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		return textComponent(shouldChangeCharactersIn: range, replacementText: string)
 	}
+	
+	public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		return textFieldShouldReturn()
+	}
 }
 
 public protocol MaterialTextViewDelegate: class {
@@ -521,6 +529,7 @@ public protocol MaterialTextViewDelegate: class {
 	func materialTextViewDidBeginEditing(_ materialTextView: MaterialTextView)
 	func materialTextViewDidEndEditing(_ materialTextView: MaterialTextView)
 	func materialTextView(_ materialTextView: MaterialTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+	func materialTextViewShouldReturn(_ materialTextView: MaterialTextView) -> Bool
 }
 
 public extension MaterialTextViewDelegate {
@@ -528,4 +537,5 @@ public extension MaterialTextViewDelegate {
 	func materialTextViewDidBeginEditing(_ materialTextView: MaterialTextView) { }
 	func materialTextViewDidEndEditing(_ materialTextView: MaterialTextView) { }
 	func materialTextView(_ materialTextView: MaterialTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool { return true }
+	func materialTextViewShouldReturn(_ materialTextView: MaterialTextView) -> Bool { return true }
 }
